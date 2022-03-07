@@ -40,6 +40,7 @@ const FruitDetails = ({
       <SharedElement id={`item.${item.name}.photo`}>
         <View style={{...styles.leftContainer, backgroundColor: item.color}}>
           <View style={styles.imageContainer}>
+            <SharedElement id={`item.${item.id}.photo`}>
               <Image
                 source={item.image}
                 style={{
@@ -48,6 +49,7 @@ const FruitDetails = ({
                 }}
                 resizeMode="contain"
               />
+            </SharedElement>
           </View>
           <View style={styles.addIcon}>
             <Text style={Styles.text('#fff', 3, 100)}>+</Text>
@@ -118,6 +120,10 @@ FruitDetails.sharedElements = (route, otherRoute, showing) => {
   return [
     {
       id: `item.${item.name}.photo`,
+      animation: 'fade',
+    },
+    {
+      id: `item.${item.id}.photo`,
       animation: 'fade',
     },
   ];

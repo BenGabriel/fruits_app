@@ -10,7 +10,13 @@ import {SharedElement} from 'react-navigation-shared-element';
 const HomeScreen = ({navigation}) => {
   const [types, setTypes] = useState('Fruits');
 
+  console.log('hi')
+
   const dataTypesItem = data.filter(item => item.type === types);
+
+  const changeType = React.useCallback((name) => {  
+    setTypes(name)  
+  },[types]) 
 
   const FruitTypes = ({item}) => {
     return (
@@ -19,7 +25,7 @@ const HomeScreen = ({navigation}) => {
           ...styles.types,
           backgroundColor: item.background,
         }}
-        onPress={() => setTypes(item.name)}>
+        onPress={() => changeType(item.name)}>
         <View
           style={{
             width: 25,
@@ -69,6 +75,7 @@ const HomeScreen = ({navigation}) => {
               marginVertical: height(1),
               marginLeft: height(-4),
             }}>
+            <SharedElement id={`item.${item.id}.photo`}>
               <Image
                 source={item.image}
                 style={{
@@ -77,6 +84,7 @@ const HomeScreen = ({navigation}) => {
                 }}
                 resizeMode="contain"
               />
+            </SharedElement>
           </View>
           <Text style={Styles.text('#fff', 2.7, 600)}>{item.variety}</Text>
           <Text style={Styles.text('#fff', 2, 200)}>1.5Kgs Rs.100 Only</Text>
@@ -114,7 +122,7 @@ const HomeScreen = ({navigation}) => {
         style={{alignSelf: 'flex-end', marginRight: height(3)}}
         color="#aaa"
       />
-      <View style={{marginVertical: height(1)}}>
+      <View style={{marginVertical: height(1), marginLeft: height(3)}}>
         <Text style={Styles.text('#333', 2.5, 400)}>Hello</Text>
         <Text style={Styles.text('#333', 3.7, 700)}>Tanveer</Text>
       </View>
@@ -123,6 +131,7 @@ const HomeScreen = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           marginVertical: height(1),
+          marginLeft: height(3)
         }}>
         <View style={styles.searchContainer}>
           <Text>Search</Text>
@@ -173,7 +182,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fffbf2',
     flex: 1,
-    paddingLeft: height(3),
     paddingTop: height(2),
   },
   searchContainer: {
@@ -191,15 +199,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: height(1),
     borderRadius: 15,
+    
+    marginRight: height(0),
+    marginLeft: height(3),
     paddingHorizontal: height(1.8),
-    marginRight: height(1.6),
     justifyContent: 'space-between',
     elevation: 1,
   },
   allFruitsContainer: {
     width: width(50),
-    marginRight: height(1.5),
-    marginLeft: height(2),
+    marginRight: height(0.5),
+    marginLeft: height(3),
     borderRadius: 15,
     paddingHorizontal: height(2),
     paddingVertical: height(1),
