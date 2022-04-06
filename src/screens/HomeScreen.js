@@ -1,120 +1,27 @@
-import {Image, StyleSheet, Text, View, FlatList, Pressable} from 'react-native';
+import {StyleSheet, Text, View, FlatList} from 'react-native';
 import React, {useState} from 'react';
 import {data, dataTypes} from '../Data';
 import {height, width} from '../helpers/Index';
-import Button from '../Components/Button';
 import {MaterialCommunityIcons, Ionicons} from '../helpers/Icons';
 import Styles from '../helpers/Styles';
-import {SharedElement} from 'react-navigation-shared-element';
+import FruitTypes from '../Components/FruitTypes';
+import FruitItems from '../Components/FruitItems';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = () => {
   const [types, setTypes] = useState('Fruits');
 
-  console.log('hi')
+  console.log('hi');
 
   const dataTypesItem = data.filter(item => item.type === types);
 
-  const changeType = React.useCallback((name) => {  
-    setTypes(name)  
-  },[types]) 
+  const changeType = React.useCallback(
+    name => {
+      setTypes(name);
+    },
+    [types],
+  );
 
-  const FruitTypes = ({item}) => {
-    return (
-      <Pressable
-        style={{
-          ...styles.types,
-          backgroundColor: item.background,
-        }}
-        onPress={() => changeType(item.name)}>
-        <View
-          style={{
-            width: 25,
-            height: 25,
-          }}>
-          <Image
-            source={item.image}
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-            resizeMode="contain"
-          />
-        </View>
-        <Text
-          style={{
-            color: item.color,
-            marginLeft: height(1),
-          }}>
-          {item.name}
-        </Text>
-      </Pressable>
-    );
-  };
-
-  const FruitItems = ({item}) => {
-    return (
-      <SharedElement id={`item.${item.name}.photo`}>
-        <Pressable
-          style={{
-            ...styles.allFruitsContainer,
-            backgroundColor: item.color,
-          }}
-          onPress={() =>
-            navigation.navigate('FruitDetails', {
-              item,
-            })
-          }>
-          <View style={Styles.flex}>
-            <Text style={Styles.text('#fff', 2.4, 600)}>{item.name}</Text>
-            <Ionicons name="heart-outline" size={width(5)} color="#fff" />
-          </View>
-          <View
-            style={{
-              width: width(50),
-              height: width(50),
-              marginVertical: height(1),
-              marginLeft: height(-4),
-            }}>
-            <SharedElement id={`item.${item.id}.photo`}>
-              <Image
-                source={item.image}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-                resizeMode="contain"
-              />
-            </SharedElement>
-          </View>
-          <Text style={Styles.text('#fff', 2.7, 600)}>{item.variety}</Text>
-          <Text style={Styles.text('#fff', 2, 200)}>1.5Kgs Rs.100 Only</Text>
-          <View style={{...Styles.flex, marginVertical: height(2)}}>
-            <Text style={Styles.text('#fff', 2, 200)}>Kg</Text>
-            <View
-              style={{
-                ...Styles.flex,
-                width: '45%',
-                paddingHorizontal: 10,
-                borderRadius: 5,
-                paddingVertical: 5,
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              }}>
-              <Text style={Styles.text('#fff', 2, 200)}>500g</Text>
-              <Ionicons name="caret-down" color="#fff" />
-            </View>
-          </View>
-          <Button
-            textColor={`${item.color}`}
-            style={{
-              width: '100%',
-            }}>
-            ADD TO CART
-          </Button>
-        </Pressable>
-      </SharedElement>
-    );
-  };
-  return (
+ return (
     <View style={styles.container}>
       <MaterialCommunityIcons
         name="sort-variant"
@@ -131,7 +38,7 @@ const HomeScreen = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           marginVertical: height(1),
-          marginLeft: height(3)
+          marginLeft: height(3),
         }}>
         <View style={styles.searchContainer}>
           <Text>Search</Text>
@@ -158,7 +65,9 @@ const HomeScreen = ({navigation}) => {
         <FlatList
           data={dataTypes}
           horizontal
-          renderItem={({item}) => <FruitTypes item={item} />}
+          renderItem={({item}) => (
+            <FruitTypes item={item} changeType={changeType} />
+          )}
           keyExtractor={item => `${item.name}`}
           showsHorizontalScrollIndicator={false}
         />
@@ -193,25 +102,5 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     elevation: 3,
     backgroundColor: '#fff',
-  },
-  types: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: height(1),
-    borderRadius: 15,
-    
-    marginRight: height(0),
-    marginLeft: height(3),
-    paddingHorizontal: height(1.8),
-    justifyContent: 'space-between',
-    elevation: 1,
-  },
-  allFruitsContainer: {
-    width: width(50),
-    marginRight: height(0.5),
-    marginLeft: height(3),
-    borderRadius: 15,
-    paddingHorizontal: height(2),
-    paddingVertical: height(1),
   },
 });
